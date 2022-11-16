@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <script>
+            // Note, most of this code is from https://www.w3schools.com/js/js_cookies.asp
+            function setCookie(cname,cvalue,exdays) {
+                const d = new Date();
+                d.setTime(d.getTime() + (exdays*24*60*60*1000));
+                const expires = "expires=" + d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
+
+            function getCookie(cname) {
+                const name = cname + "=";
+                const decodedCookie = decodeURIComponent(document.cookie);
+                const ca = decodedCookie.split(';');
+                for(let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) === ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) === 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            }
+
+            function checkCookie() {
+                let user = getCookie("username");
+                if (user !== "") {
+                    alert("Welcome again " + user + "!");
+                    document.getElementById("name").innerHTML = user;
+                } else {
+                    user = prompt("Please enter your name:", "");
+                    if (user !== "" && user != null) {
+                        setCookie("username", user, 30);
+                        document.getElementById("name").innerHTML = user;
+                    }
+                }
+            }
+
+        </script>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            html, body {
+                min-height: 100vh;
+            }
+
+            h1 {
+                margin-top: 20px;
+                text-align: center;
+            }
+
+            footer {
+                position: absolute;
+                text-align: center;
+                width: 100%;
+                bottom: 20px;
+            }
+        </style>
+    </head>
+    <body onload="checkCookie()">
+        <h1>Welcome, <a id="name"></a>!</h1>
+    </body>
+    <footer>
+        <p>&copy; 2022, Stephen Ebrahim, 11/22/22</p>
+    </footer>
+</html>
